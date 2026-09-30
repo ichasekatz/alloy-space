@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.uv/
+*.csv
+*.h5
+*.xlsx
+examples/no-commit/
