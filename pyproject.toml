@@ -31,7 +31,7 @@ force-exclude = true
 
 [tool.ruff.lint]
 select = ["A", "B", "C4", "D", "E", "ERA", "F", "FA", "I", "ICN", "N", "PL", "PTH", "Q", "SIM", "TC", "UP", "W"]
-ignore = ["E501", "PLR0913", "PLR2004"]
+ignore = ["E501", "PLR0913", "PLR0917", "PLR2004"]
 pydocstyle.convention = "google"
 
 [tool.ruff.format]

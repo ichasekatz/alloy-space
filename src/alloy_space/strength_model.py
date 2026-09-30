@@ -115,13 +115,9 @@ def model(
     misfit_vol_factor = sum(fr * misfit[el] ** 2 for el, fr in composition.items())
 
     mu_bar = np.sqrt(0.5 * bar_c44 * (bar_c11 - bar_c12))
-    b_bar = (bar_v * 2) ** (1 / 3) * np.sqrt(3) / 2  # <111>/2 Burgers vector, Å
-    b_bar_bar = (2 * bar_v) ** (1 / 3)  # lattice parameter a, Å
-
-    b_bar_actual = b_bar_bar * np.sqrt(3) / 2
-    nu_bar = (3 * (bar_c11 + 2 * bar_c12) / 3 - 2 * mu_bar) / (
-        2 * ((bar_c11 + 2 * bar_c12) / 3 + mu_bar)
-    )
+    # lattice parameter a (Å), then <111>/2 Burgers vector
+    b_bar_actual = (2 * bar_v) ** (1 / 3) * np.sqrt(3) / 2
+    nu_bar = (3 * (bar_c11 + 2 * bar_c12) / 3 - 2 * mu_bar) / (2 * ((bar_c11 + 2 * bar_c12) / 3 + mu_bar))
 
     tau_y_0 = (
         0.040
@@ -179,14 +175,14 @@ def temp_model(
     tau_y_0: float = results["tau_y_0"]  # type: ignore[assignment]
     delta_eb: float = results["delta_Eb"]  # type: ignore[assignment]
 
-    kT_ratio = boltzmann * temperature / delta_eb
+    kt_ratio = boltzmann * temperature / delta_eb
     log_ratio = np.log(eps_dot_0 / eps_dot)
 
     if approx:
-        return tau_y_0 * np.exp(-(1 / 0.55) * kT_ratio * log_ratio)
+        return tau_y_0 * np.exp(-(1 / 0.55) * kt_ratio * log_ratio)
 
-    tau_low = tau_y_0 * (1 - (kT_ratio * log_ratio) ** (2 / 3))
-    tau_high = tau_y_0 * np.exp(-(1 / 0.55) * kT_ratio * log_ratio)
+    tau_low = tau_y_0 * (1 - (kt_ratio * log_ratio) ** (2 / 3))
+    tau_high = tau_y_0 * np.exp(-(1 / 0.55) * kt_ratio * log_ratio)
 
     temperature = np.asarray(temperature)
     tau = np.where(tau_low / tau_y_0 > 0.5, tau_low, tau_high)

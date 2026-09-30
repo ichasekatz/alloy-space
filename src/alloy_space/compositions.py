@@ -49,9 +49,7 @@ def generate_compositions(
     if max_order < 2:
         raise ValueError(f"max_order must be >= 2, got {max_order}")
     if max_order > len(elements):
-        raise ValueError(
-            f"max_order ({max_order}) exceeds number of elements ({len(elements)})"
-        )
+        raise ValueError(f"max_order ({max_order}) exceeds number of elements ({len(elements)})")
 
     subsystems = [list(s) for s in combinations(elements, max_order)]
     if only_subsystems is not None:
